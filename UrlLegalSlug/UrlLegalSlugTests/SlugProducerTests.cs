@@ -30,7 +30,6 @@ namespace UrlLegalSlugTest
         [DataRow("home security–access", "home-security-access")]
         [DataRow("home -–security–access", "home-security-access")]
         [DataRow("-home -–security–access-", "home-security-access")]
-
         public void SlugProducer_GetUrlSlug_WhenTitleContainsAllowedIllegalCharacters_ReplacesAllowedIllegalCharactersWithDash(string inputSlug, string expectedSlugArgument)
         {
             //Assert
@@ -45,14 +44,15 @@ namespace UrlLegalSlugTest
 
         [TestMethod]
         [TestCategory("ClassTest")]
-        public void SlugProducer_GetUrlSlug_WhenTitleContainsUpperCaseAlphabets_ReturnsLowerCaseAlphabets()
+        [DataRow("HoME-sEcuRity-AcCeSS-V1", "home-security-access-v1")]
+        [DataRow("0home1-Se2c3ur456ITY@.a7CC8ess9", "0home1-se2c3ur456ity-a7cc8ess9")]
+        public void SlugProducer_GetUrlSlug_WhenTitleContainsUpperCaseAlphabets_ReturnsLowerCaseAlphabets(string inputSlug, string expectedSlugArgument)
         {
             //Arrange
-            var testSlug = "HoME-sEcuRity-AcCeSS-V1";
-            var expectedSlug = "home-security-access-v1";
+            var expectedSlug = expectedSlugArgument;
 
             //Act
-            var actualSlug = SlugProducer.GetUrlSlug(testSlug);
+            var actualSlug = SlugProducer.GetUrlSlug(inputSlug);
 
             //Assert
             Assert.AreEqual(expectedSlug, actualSlug, $"We were expecting the Url slug to be: {expectedSlug}, but found the actual Url slug to be {actualSlug}");
